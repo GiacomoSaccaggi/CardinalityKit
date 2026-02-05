@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="CardinalityKit Documentation">
+    <title>Sketch Operations - CardinalityKit Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Merging sketches for union and intersection analytics in cardinality estimation">
+    <link rel="canonical" href="https://giacomosaccaggi.github.io/CardinalityKit/sketch-operations.html">
+    <link rel="alternate" type="application/rss+xml" title="Giacomo Saccaggi" href="https://giacomosaccaggi.github.io/feed.xml">
+    
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://giacomosaccaggi.github.io/css/clean-blog.css">
+    
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="https://giacomosaccaggi.github.io/css/syntax.css">
+    
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    
+    <style>
+        pre code {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            display: block;
+            padding: 10px;
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.4;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #0085a1;
+        }
+        .highlight-box {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .code-snippet {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            line-height: 1.4;
+            font-size: 14px;
+        }
+        .operation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .operation-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .union-card {
+            border-left: 5px solid #28a745;
+        }
+        .intersection-card {
+            border-left: 5px solid #dc3545;
+        }
+        .visual-example {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .bucket-visualization {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .bucket {
+            background: #0085a1;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            min-width: 60px;
+            margin: 0 5px;
+        }
+        .bucket-hll {
+            background: #0085a1;
+        }
+        .bucket-hr {
+            background: #28a745;
+        }
+        .bucket-result {
+            background: #6f42c1;
+        }
+        .operation-symbol {
+            font-size: 2em;
+            color: #6f42c1;
+            margin: 0 10px;
+        }
+        .math-formula {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+        }
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .use-case-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+
+    <style>
+        body {
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            color: #404040;
+            background-color: #f8f9fa;
+        }
+
+        .navbar-custom {
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 3;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            border-bottom: 1px solid #eee;
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: 800;
+            color: #404040;
+        }
+
+        .navbar-custom .nav li a {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #404040;
+        }
+
+        .intro-header {
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            background-size: cover;
+            margin-bottom: 50px;
+            color: white;
+            padding: 150px 0 100px;
+        }
+
+        .intro-header .site-heading h1 {
+            font-size: 80px;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 800;
+            margin-top: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .intro-header .site-heading .subheading {
+            font-size: 24px;
+            line-height: 1.1;
+            display: block;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+
+        .intro-header .site-heading hr {
+            border-color: white;
+            margin: 30px 0;
+        }
+
+        .post-preview {
+            margin-bottom: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #007bff;
+        }
+
+        .post-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .post-preview a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .post-preview .post-title {
+            font-size: 30px;
+            font-weight: 800;
+            margin: 0 0 10px;
+            color: #2c3e50;
+        }
+
+        .post-preview .post-subtitle {
+            font-weight: 300;
+            margin: 0 0 10px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .post-meta {
+            font-size: 14px;
+            color: #999;
+            margin-top: 15px;
+        }
+
+        .problem-statement {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .problem-statement h2 {
+            color: #856404;
+            margin-top: 0;
+            font-weight: 800;
+        }
+
+        .highlight-box {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin: 50px 0 30px;
+            font-size: 36px;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+
+        .icon-preview {
+            float: left;
+            width: 80px;
+            height: 80px;
+            margin: 0 20px 20px 0;
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 50px 0;
+            margin-top: 50px;
+        }
+
+        footer .list-inline {
+            margin: 0;
+            padding: 0;
+        }
+
+        footer .copyright {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .fa-stack {
+            color: #2c3e50;
+        }
+
+        .fa-stack:hover {
+            color: #667eea;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .intro-header .site-heading h1 {
+                font-size: 80px;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .intro-header .site-heading h1 {
+                font-size: 55px;
+            }
+            .icon-preview {
+                float: none;
+                margin: 0 auto 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="https://giacomosaccaggi.github.io/">Giacomo Saccaggi</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="https://giacomosaccaggi.github.io/">Home</a></li>
+                    <li><a href="https://giacomosaccaggi.github.io/about/">About</a></li>
+                    <li><a href="https://giacomosaccaggi.github.io/contact/">Contact</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">CardinalityKit <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="index.html">Overview</a></li>
+                            <li><a href="fundamentals.html">Fundamentals</a></li>
+                            <li><a href="algorithm-evolution.html">Evolution</a></li>
+                            <li><a href="hyperloglog.html">HyperLogLog</a></li>
+                            <li><a href="hyperreal.html">HyperReal</a></li>
+                            <li><a href="implementation.html">Implementation</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Sketch Operations</h1>
+                        <h2 class="subheading">Merging Sketches for Union and Intersection Analytics</h2>
+                        <span class="meta">CardinalityKit Documentation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+        <div class="section">
+            <h2>Why Sketch Operations Matter</h2>
+            <p>One of the most powerful features of cardinality estimation sketches is their ability to be merged. This enables cross-platform analytics, audience deduplication, and complex set operations without exposing individual user data.</p>
+            
+            <div class="highlight-box">
+                <h3>🎯 Key Applications</h3>
+                <ul>
+                    <li><strong>Cross-Platform Reach:</strong> Total unique users across Google + Facebook + TV</li>
+                    <li><strong>Audience Overlap:</strong> Users who appear on both platforms</li>
+                    <li><strong>Incremental Reach:</strong> New users gained by adding a platform</li>
+                    <li><strong>Geographic Analysis:</strong> Audience distribution across regions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Set Theory Foundation</h2>
+            
+            <div class="math-formula">
+                <h4>Set Operations:</h4>
+                <p>Union: A ∪ B = {x | x ∈ A or x ∈ B}</p>
+                <p>Intersection: A ∩ B = {x | x ∈ A and x ∈ B}</p>
+                <p>Difference: A - B = {x | x ∈ A and x ∉ B}</p>
+            </div>
+
+            <div class="visual-example">
+                <h4>Example: Platform Analytics</h4>
+                <ul>
+                    <li><strong>Platform A:</strong> 1M unique users</li>
+                    <li><strong>Platform B:</strong> 800K unique users</li>
+                    <li><strong>Union (Total Reach):</strong> 1.5M unique users</li>
+                    <li><strong>Intersection (Overlap):</strong> 300K unique users</li>
+                    <li><strong>Platform A Only:</strong> 700K unique users</li>
+                    <li><strong>Platform B Only:</strong> 500K unique users</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>HyperLogLog Sketch Operations</h2>
+            
+            <div class="operation-grid">
+                <div class="operation-card union-card">
+                    <h3>🟢 Union Operation (MAX)</h3>
+                    <p>To find total unique elements across sketches, take the <strong>maximum</strong> rank value for each bucket.</p>
+                    <h4>Logic:</h4>
+                    <p>Higher rank indicates rarer pattern → more unique elements in that bucket</p>
+                </div>
+                
+                <div class="operation-card intersection-card">
+                    <h3>🔴 Intersection Operation (MIN)</h3>
+                    <p>To find overlapping elements, take the <strong>minimum</strong> rank value for each bucket.</p>
+                    <h4>Logic:</h4>
+                    <p>Lower rank indicates common pattern → elements present in both sketches</p>
+                </div>
+            </div>
+
+            <div class="code-snippet">
+def merge_hll_sketches(sketch1, sketch2, operation='union'):
+    """Merge two HyperLogLog sketches"""
+    
+    merged_buckets = []
+    
+    for i in range(len(sketch1.buckets)):
+        if operation == 'union':
+            # Union: take maximum rank (more unique elements)
+            merged_buckets.append(max(sketch1.buckets[i], sketch2.buckets[i]))
+        elif operation == 'intersection':
+            # Intersection: take minimum rank (common elements)
+            merged_buckets.append(min(sketch1.buckets[i], sketch2.buckets[i]))
+    
+    # Calculate cardinality from merged buckets
+    total = sum(2 ** (-1 * bucket) for bucket in merged_buckets)
+    harmonic_mean = total ** -1
+    m = len(merged_buckets)
+    
+    estimate = (m ** 2) * harmonic_mean
+    
+    # Apply bias correction
+    if len(sketch1.buckets) <= 16:
+        BIAS = 0.673
+    elif len(sketch1.buckets) == 32:
+        BIAS = 0.697
+    else:
+        BIAS = 0.7213 / (1 + (1.079 / m))
+    
+    return BIAS * estimate
+            </div>
+
+            <div class="visual-example">
+                <h4>HyperLogLog Bucket Merging Example:</h4>
+                <div class="bucket-visualization">
+                    <div class="bucket bucket-hll">6</div>
+                    <div class="bucket bucket-hll">1</div>
+                    <div class="bucket bucket-hll">0</div>
+                    <div class="bucket bucket-hll">11</div>
+                    <div class="bucket bucket-hll">8</div>
+                </div>
+                <div style="text-align: center; margin: 10px 0;">Sketch A</div>
+                
+                <div class="bucket-visualization">
+                    <div class="bucket bucket-hll">11</div>
+                    <div class="bucket bucket-hll">1</div>
+                    <div class="bucket bucket-hll">5</div>
+                    <div class="bucket bucket-hll">3</div>
+                    <div class="bucket bucket-hll">10</div>
+                </div>
+                <div style="text-align: center; margin: 10px 0;">Sketch B</div>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <span class="operation-symbol">MAX (Union)</span>
+                </div>
+                
+                <div class="bucket-visualization">
+                    <div class="bucket bucket-result">11</div>
+                    <div class="bucket bucket-result">1</div>
+                    <div class="bucket bucket-result">5</div>
+                    <div class="bucket bucket-result">11</div>
+                    <div class="bucket bucket-result">10</div>
+                </div>
+                <div style="text-align: center; margin: 10px 0;">Union Result</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>HyperReal Sketch Operations</h2>
+            
+            <div class="operation-grid">
+                <div class="operation-card union-card">
+                    <h3>🟢 Union Operation (MIN)</h3>
+                    <p>To find total unique elements, take the <strong>minimum</strong> hash value for each bucket.</p>
+                    <h4>Logic:</h4>
+                    <p>Smaller minimum indicates more elements hashed to that bucket</p>
+                </div>
+                
+                <div class="operation-card intersection-card">
+                    <h3>🔴 Intersection Operation (MAX)</h3>
+                    <p>To find overlapping elements, take the <strong>maximum</strong> hash value for each bucket.</p>
+                    <h4>Logic:</h4>
+                    <p>Larger minimum indicates fewer common elements in that bucket</p>
+                </div>
+            </div>
+
+            <div class="code-snippet">
+def merge_hyperreal_sketches(sketch1, sketch2, operation='union'):
+    """Merge two HyperReal sketches"""
+    
+    merged_registers = []
+    
+    for i in range(len(sketch1.registers)):
+        if operation == 'union':
+            # Union: take minimum value (more elements)
+            merged_registers.append(min(sketch1.registers[i], sketch2.registers[i]))
+        elif operation == 'intersection':
+            # Intersection: take maximum value (fewer common elements)
+            merged_registers.append(max(sketch1.registers[i], sketch2.registers[i]))
+    
+    # Calculate cardinality (no bias correction needed for HyperReal)
+    m = len(merged_registers)
+    estimate = (m ** 2) / sum(merged_registers)
+    
+    return estimate
+            </div>
+
+            <div class="visual-example">
+                <h4>HyperReal Bucket Merging Example:</h4>
+                <div class="bucket-visualization">
+                    <div class="bucket bucket-hr">0.6</div>
+                    <div class="bucket bucket-hr">0.1</div>
+                    <div class="bucket bucket-hr">0.8</div>
+                    <div class="bucket bucket-hr">0.5</div>
+                    <div class="bucket bucket-hr">0.7</div>
+                </div>
+                <div style="text-align: center; margin: 10px 0;">Sketch A</div>
+                
+                <div class="bucket-visualization">
+                    <div class="bucket bucket-hr">0.11</div>
+                    <div class="bucket bucket-hr">0.5</div>
+                    <div class="bucket bucket-hr">0.10</div>
+                    <div class="bucket bucket-hr">0.3</div>
+                    <div class="bucket bucket-hr">0.1</div>
+                </div>
+                <div style="text-align: center; margin: 10px 0;">Sketch B</div>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <span class="operation-symbol">MIN (Union)</span>
+                </div>
+                
+                <div class="bucket-visualization">
+                    <div class="bucket bucket-result">0.11</div>
+                    <div class="bucket bucket-result">0.1</div>
+                    <div class="bucket bucket-result">0.10</div>
+                    <div class="bucket bucket-result">0.3</div>
+                    <div class="bucket bucket-result">0.1</div>
+                </div>
+                <div style="text-align: center; margin: 10px 0;">Union Result</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Extended Sketch Operations</h2>
+            <p>Extended sketches (with demographic information) require special handling during merging:</p>
+            
+            <div class="code-snippet">
+def merge_extended_sketches(sketch1, sketch2, operation='union'):
+    """Merge extended sketches with demographic preservation"""
+    
+    merged_sketch = ExtendedHyperRealSketch(sketch1.b_m, sketch1.b_s)
+    
+    for i in range(sketch1.m):
+        if operation == 'union':
+            # Take sketch with smaller register value (more elements)
+            if sketch1.registers[i] <= sketch2.registers[i]:
+                merged_sketch.registers[i] = sketch1.registers[i]
+                merged_sketch.frequency_counts[i] = sketch1.frequency_counts[i]
+                merged_sketch.attribute_samples[i] = sketch1.attribute_samples[i]
+            else:
+                merged_sketch.registers[i] = sketch2.registers[i]
+                merged_sketch.frequency_counts[i] = sketch2.frequency_counts[i]
+                merged_sketch.attribute_samples[i] = sketch2.attribute_samples[i]
+            
+            # Handle equal values (rare with floats)
+            if sketch1.registers[i] == sketch2.registers[i]:
+                merged_sketch.frequency_counts[i] = (
+                    sketch1.frequency_counts[i] + sketch2.frequency_counts[i]
+                )
+                
+                # Demographic conflict resolution
+                if sketch1.attribute_samples[i] != sketch2.attribute_samples[i]:
+                    # Weighted selection based on frequency
+                    if sketch1.frequency_counts[i] >= sketch2.frequency_counts[i]:
+                        merged_sketch.attribute_samples[i] = sketch1.attribute_samples[i]
+                    else:
+                        merged_sketch.attribute_samples[i] = sketch2.attribute_samples[i]
+        
+        elif operation == 'intersection':
+            # Take sketch with larger register value (fewer common elements)
+            if sketch1.registers[i] >= sketch2.registers[i]:
+                merged_sketch.registers[i] = sketch1.registers[i]
+                merged_sketch.frequency_counts[i] = min(
+                    sketch1.frequency_counts[i], sketch2.frequency_counts[i]
+                )
+                merged_sketch.attribute_samples[i] = sketch1.attribute_samples[i]
+            else:
+                merged_sketch.registers[i] = sketch2.registers[i]
+                merged_sketch.frequency_counts[i] = min(
+                    sketch1.frequency_counts[i], sketch2.frequency_counts[i]
+                )
+                merged_sketch.attribute_samples[i] = sketch2.attribute_samples[i]
+    
+    return merged_sketch
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Real-World Use Cases</h2>
+            
+            <div class="use-case-grid">
+                <div class="use-case-card">
+                    <h4>🌐 Cross-Platform Reach</h4>
+                    <p>Measure total unique audience across Google, Facebook, and TV without double-counting</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <h4>📊 Audience Overlap</h4>
+                    <p>Find users who engage with multiple platforms for targeted campaigns</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <h4>📈 Incremental Analysis</h4>
+                    <p>Measure new reach gained by adding additional advertising channels</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <h4>🎯 Campaign Attribution</h4>
+                    <p>Understand which combinations of channels drive unique conversions</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <h4>🌍 Geographic Insights</h4>
+                    <p>Analyze audience distribution and overlap across different regions</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <h4>📱 Device Analysis</h4>
+                    <p>Cross-device user tracking while preserving privacy</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Complete Implementation Example</h2>
+            
+            <div class="code-snippet">
+class SketchAnalytics:
+    """Complete sketch operations for cross-platform analytics"""
+    
+    def __init__(self):
+        self.sketches = {}
+    
+    def add_platform_sketch(self, platform_name, sketch):
+        """Add a platform sketch to the analytics"""
+        self.sketches[platform_name] = sketch
+    
+    def get_total_reach(self, platforms=None):
+        """Calculate total unique reach across specified platforms"""
+        if platforms is None:
+            platforms = list(self.sketches.keys())
+        
+        if len(platforms) == 1:
+            return self.sketches[platforms[0]].get_cardinality_estimate()
+        
+        # Start with first platform
+        merged_sketch = self.sketches[platforms[0]]
+        
+        # Union with remaining platforms
+        for platform in platforms[1:]:
+            merged_sketch = merge_hyperreal_sketches(
+                merged_sketch, 
+                self.sketches[platform], 
+                operation='union'
+            )
+        
+        return merged_sketch
+    
+    def get_overlap(self, platform1, platform2):
+        """Calculate audience overlap between two platforms"""
+        return merge_hyperreal_sketches(
+            self.sketches[platform1],
+            self.sketches[platform2],
+            operation='intersection'
+        )
+    
+    def get_incremental_reach(self, base_platforms, new_platform):
+        """Calculate incremental reach of adding a new platform"""
+        base_reach = self.get_total_reach(base_platforms)
+        total_reach = self.get_total_reach(base_platforms + [new_platform])
+        
+        return total_reach - base_reach
+    
+    def analyze_platform_mix(self):
+        """Complete analysis of platform combinations"""
+        platforms = list(self.sketches.keys())
+        results = {}
+        
+        # Individual platform reach
+        for platform in platforms:
+            results[platform] = self.sketches[platform].get_cardinality_estimate()
+        
+        # Pairwise overlaps
+        for i, p1 in enumerate(platforms):
+            for p2 in platforms[i+1:]:
+                overlap_key = f"{p1}_∩_{p2}"
+                results[overlap_key] = self.get_overlap(p1, p2)
+        
+        # Total reach
+        results['total_reach'] = self.get_total_reach()
+        
+        # Platform-only audiences (exclusive reach)
+        for platform in platforms:
+            others = [p for p in platforms if p != platform]
+            if others:
+                others_reach = self.get_total_reach(others)
+                platform_only = results[platform] - self.get_overlap(platform, others[0])
+                results[f"{platform}_only"] = max(0, platform_only)
+        
+        return results
+
+# Usage example
+analytics = SketchAnalytics()
+analytics.add_platform_sketch('google', google_sketch)
+analytics.add_platform_sketch('facebook', facebook_sketch)
+analytics.add_platform_sketch('tv', tv_sketch)
+
+# Get comprehensive analysis
+results = analytics.analyze_platform_mix()
+print(f"Total Reach: {results['total_reach']:,}")
+print(f"Google Only: {results['google_only']:,}")
+print(f"Facebook ∩ TV: {results['facebook_∩_tv']:,}")
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Performance and Accuracy</h2>
+            
+            <div class="highlight-box">
+                <h3>🎯 Key Properties</h3>
+                <ul>
+                    <li><strong>Associative:</strong> (A ∪ B) ∪ C = A ∪ (B ∪ C)</li>
+                    <li><strong>Commutative:</strong> A ∪ B = B ∪ A</li>
+                    <li><strong>Idempotent:</strong> A ∪ A = A</li>
+                    <li><strong>Fast:</strong> O(m) time complexity where m = number of buckets</li>
+                    <li><strong>Memory Efficient:</strong> No additional memory needed</li>
+                </ul>
+            </div>
+
+            <div class="visual-example">
+                <h4>Accuracy Considerations:</h4>
+                <ul>
+                    <li><strong>Union Accuracy:</strong> Generally very good, slight overestimation</li>
+                    <li><strong>Intersection Accuracy:</strong> Less accurate, especially for small overlaps</li>
+                    <li><strong>Error Propagation:</strong> Errors compound with multiple operations</li>
+                    <li><strong>Sketch Size Impact:</strong> Larger sketches (higher k) improve accuracy</li>
+                </ul>
+            </div>
+        </div>
+
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="simulations.html" style="background: #0085a1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;">Next: Simulations & Results →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="https://www.linkedin.com/in/giacomo-saccaggi/">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/giacomosaccaggi">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; Giacomo Saccaggi 2024 | CardinalityKit Documentation</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="https://giacomosaccaggi.github.io/js/clean-blog.min.js"></script>
+</body>
+</html>

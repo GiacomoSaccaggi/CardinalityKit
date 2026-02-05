@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="CardinalityKit Documentation">
+    <title>Algorithm Evolution - CardinalityKit Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Evolution of cardinality estimation algorithms from Flajolet-Martin to HyperReal">
+    <link rel="canonical" href="https://giacomosaccaggi.github.io/CardinalityKit/algorithm-evolution.html">
+    <link rel="alternate" type="application/rss+xml" title="Giacomo Saccaggi" href="https://giacomosaccaggi.github.io/feed.xml">
+    
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://giacomosaccaggi.github.io/css/clean-blog.css">
+    
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="https://giacomosaccaggi.github.io/css/syntax.css">
+    
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    
+    <style>
+        .algorithm-step {
+            background-color: #e7f3ff;
+            border-left: 4px solid #0085a1;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .comparison-table {
+            margin: 2rem 0;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+        pre code {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            display: block;
+            padding: 10px;
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.4;
+        }
+        .timeline {
+            position: relative;
+            margin: 30px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #0085a1, #28a745);
+            transform: translateX(-50%);
+        }
+        .timeline-item {
+            position: relative;
+            margin: 40px 0;
+            width: 45%;
+        }
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            text-align: left;
+        }
+        .timeline-content {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .timeline-year {
+            background: #0085a1;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .algorithm-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .code-snippet {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            line-height: 1.4;
+            font-size: 14px;
+        }
+        .highlight-box {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .tribute {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+
+    <style>
+        body {
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            color: #404040;
+            background-color: #f8f9fa;
+        }
+
+        .navbar-custom {
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 3;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            border-bottom: 1px solid #eee;
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: 800;
+            color: #404040;
+        }
+
+        .navbar-custom .nav li a {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #404040;
+        }
+
+        .intro-header {
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            background-size: cover;
+            margin-bottom: 50px;
+            color: white;
+            padding: 150px 0 100px;
+        }
+
+        .intro-header .site-heading h1 {
+            font-size: 80px;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 800;
+            margin-top: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .intro-header .site-heading .subheading {
+            font-size: 24px;
+            line-height: 1.1;
+            display: block;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+
+        .intro-header .site-heading hr {
+            border-color: white;
+            margin: 30px 0;
+        }
+
+        .post-preview {
+            margin-bottom: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #007bff;
+        }
+
+        .post-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .post-preview a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .post-preview .post-title {
+            font-size: 30px;
+            font-weight: 800;
+            margin: 0 0 10px;
+            color: #2c3e50;
+        }
+
+        .post-preview .post-subtitle {
+            font-weight: 300;
+            margin: 0 0 10px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .post-meta {
+            font-size: 14px;
+            color: #999;
+            margin-top: 15px;
+        }
+
+        .problem-statement {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .problem-statement h2 {
+            color: #856404;
+            margin-top: 0;
+            font-weight: 800;
+        }
+
+        .highlight-box {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin: 50px 0 30px;
+            font-size: 36px;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+
+        .icon-preview {
+            float: left;
+            width: 80px;
+            height: 80px;
+            margin: 0 20px 20px 0;
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 50px 0;
+            margin-top: 50px;
+        }
+
+        footer .list-inline {
+            margin: 0;
+            padding: 0;
+        }
+
+        footer .copyright {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .fa-stack {
+            color: #2c3e50;
+        }
+
+        .fa-stack:hover {
+            color: #667eea;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .intro-header .site-heading h1 {
+                font-size: 80px;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .intro-header .site-heading h1 {
+                font-size: 55px;
+            }
+            .icon-preview {
+                float: none;
+                margin: 0 auto 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="https://giacomosaccaggi.github.io/">Giacomo Saccaggi</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="https://giacomosaccaggi.github.io/">Home</a></li>
+                    <li><a href="https://giacomosaccaggi.github.io/about/">About</a></li>
+                    <li><a href="https://giacomosaccaggi.github.io/contact/">Contact</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">CardinalityKit <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="index.html">Overview</a></li>
+                            <li><a href="fundamentals.html">Fundamentals</a></li>
+                            <li><a href="algorithm-evolution.html">Evolution</a></li>
+                            <li><a href="hyperloglog.html">HyperLogLog</a></li>
+                            <li><a href="hyperreal.html">HyperReal</a></li>
+                            <li><a href="implementation.html">Implementation</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Algorithm Evolution</h1>
+                        <h2 class="subheading">From Flajolet-Martin to HyperLogLog: 22 Years of Innovation</h2>
+                        <span class="meta">CardinalityKit Documentation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">1985</div>
+                    <h3>Flajolet-Martin Estimator</h3>
+                    <p><strong>Paper:</strong> "Probabilistic counting algorithms for data base applications"</p>
+                    <p><strong>Innovation:</strong> First probabilistic cardinality estimation using bit patterns</p>
+                    <p><strong>Key Insight:</strong> Use hash function rank (trailing zeros) to estimate cardinality</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">2003</div>
+                    <h3>LogLog Algorithm</h3>
+                    <p><strong>Authors:</strong> Durand & Flajolet</p>
+                    <p><strong>Innovation:</strong> Introduced bucketing to reduce variance</p>
+                    <p><strong>Memory:</strong> log(log(N)) bits for N distinct elements</p>
+                    <p><strong>Improvement:</strong> Better accuracy through averaging multiple estimates</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">2007</div>
+                    <h3>SuperLogLog</h3>
+                    <p><strong>Enhancement:</strong> Added outlier elimination</p>
+                    <p><strong>Method:</strong> Remove ~30% of largest bucket values</p>
+                    <p><strong>Benefit:</strong> Reduced impact of hash collisions and outliers</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">2007</div>
+                    <h3>HyperLogLog</h3>
+                    <p><strong>Authors:</strong> Flajolet et al.</p>
+                    <p><strong>Innovation:</strong> Harmonic mean instead of arithmetic mean</p>
+                    <p><strong>Accuracy:</strong> Near-optimal cardinality estimation</p>
+                    <p><strong>Industry Standard:</strong> Widely adopted in big data systems</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tribute">
+            <h3>Philippe Flajolet (1948-2011)</h3>
+            <p>Pioneer of analytic combinatorics and probabilistic algorithms. His work laid the foundation for modern cardinality estimation techniques used in big data analytics worldwide.</p>
+        </div>
+
+        <div class="algorithm-card">
+            <h2>Flajolet-Martin Estimator (1985)</h2>
+            <p>The foundational algorithm that started it all. Uses a single bitmap to track the maximum rank observed.</p>
+            
+            <div class="code-snippet">
+def FlajoletMartin(hashes):
+    # Initialize 32-bit bitmap
+    bitMap = ["0"] * 32
+    
+    # Process each hash
+    for hash_val in hashes:
+        # Count trailing zeros (rank)
+        rank = 0
+        for c in reversed(str(hash_val)):
+            if c == "0":
+                rank += 1
+            else:
+                break
+        
+        # Set corresponding bit to 1
+        bitMap[rank] = "1"
+    
+    # Find first zero position
+    r = 0
+    for bit in bitMap:
+        if bit == "1":
+            r += 1
+        else:
+            break
+    
+    # Calculate estimate with bias correction
+    estimate = 2 ** r
+    BIAS = 0.77351
+    estimate = estimate / BIAS
+    
+    return estimate
+            </div>
+            
+            <p><strong>Limitations:</strong></p>
+            <ul>
+                <li>High variance in estimates</li>
+                <li>Single point of failure</li>
+                <li>Limited accuracy for practical applications</li>
+            </ul>
+        </div>
+
+        <div class="algorithm-card">
+            <h2>LogLog Estimator (2003)</h2>
+            <p>Introduced bucketing to reduce variance by averaging multiple independent estimates.</p>
+            
+            <div class="code-snippet">
+def LogLog(hashes, k):
+    m = 2 ** k  # Number of buckets
+    buckets = [0] * m
+    
+    for hash_val in hashes:
+        # Get bucket (first k bits)
+        j = int(str(hash_val)[:k], 2)
+        
+        # Get rank from remaining bits
+        data = hash_val[k:]
+        rank = 1
+        for c in reversed(data):
+            if c == "0":
+                rank += 1
+            else:
+                break
+        
+        # Keep maximum rank per bucket
+        buckets[j] = max(buckets[j], rank)
+    
+    # Calculate estimate using arithmetic mean
+    average = sum(buckets) / m
+    estimate = m * (2 ** average)
+    
+    # Bias correction
+    BIAS = 0.397011808
+    estimate = BIAS * estimate
+    
+    return estimate
+            </div>
+            
+            <p><strong>Key Innovation:</strong> Bucketing reduces variance by factor of √m</p>
+        </div>
+
+        <div class="algorithm-card">
+            <h2>SuperLogLog Estimator (2007)</h2>
+            <p>Enhanced LogLog with outlier elimination to improve robustness.</p>
+            
+            <div class="code-snippet">
+def SuperLogLog(hashes, k):
+    m = 2 ** k
+    buckets = [0] * m
+    
+    # Same bucket processing as LogLog
+    for hash_val in hashes:
+        j = int(str(hash_val)[:k], 2)
+        data = hash_val[k:]
+        rank = 1
+        for c in reversed(data):
+            if c == "0":
+                rank += 1
+            else:
+                break
+        buckets[j] = max(buckets[j], rank)
+    
+    # Outlier elimination: remove ~30% largest values
+    cutoff = 0.7
+    lower = math.floor(cutoff * m)
+    
+    buckets.sort()
+    # Remove upper 30% of values
+    for i in range(m - lower):
+        del buckets[-1]
+    
+    # Calculate estimate from remaining buckets
+    average = sum(buckets) / lower
+    estimate = m * 2 ** average
+    
+    # Empirical bias correction
+    BIAS = 0.764
+    estimate = BIAS * estimate
+    
+    return estimate
+            </div>
+            
+            <p><strong>Improvement:</strong> More robust against hash collisions and extreme values</p>
+        </div>
+
+        <div class="algorithm-card">
+            <h2>HyperLogLog Estimator (2007)</h2>
+            <p>The breakthrough algorithm using harmonic mean for near-optimal accuracy.</p>
+            
+            <div class="code-snippet">
+def HyperLogLog(hashes, k):
+    m = 2 ** k
+    buckets = [0] * m
+    
+    # Process hashes (same as previous algorithms)
+    for hash_val in hashes:
+        j = int(str(hash_val)[:k], 2)
+        data = hash_val[k:]
+        rank = 1
+        for c in reversed(data):
+            if c == "0":
+                rank += 1
+            else:
+                break
+        buckets[j] = max(buckets[j], rank)
+    
+    # Key innovation: harmonic mean
+    total = 0
+    for bucket in buckets:
+        total += 2 ** (-1 * bucket)
+    harmonic_mean = total ** -1
+    
+    estimate = (m ** 2) * harmonic_mean
+    
+    # Sophisticated bias correction
+    if k <= 4:
+        BIAS = 0.673
+    elif k == 5:
+        BIAS = 0.697
+    else:
+        BIAS = 0.7213 / (1 + (1.079 / m))
+    
+    estimate = BIAS * estimate
+    
+    # Range corrections for small and large estimates
+    if estimate < ((5 / 2) * m):
+        zeros = sum(1 for bucket in buckets if bucket == 0)
+        if zeros != 0:
+            estimate = m * math.log(m / zeros)
+    elif estimate > ((2 ** 32) / 30):
+        estimate = -1 * (2 ** 32) * math.log(1 - (estimate / (2 ** 32)))
+    
+    return estimate
+            </div>
+            
+            <p><strong>Revolutionary Features:</strong></p>
+            <ul>
+                <li>Harmonic mean reduces bias significantly</li>
+                <li>Sophisticated bias correction formulas</li>
+                <li>Small and large range corrections</li>
+                <li>Near-optimal accuracy with minimal memory</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>Why "LogLog"?</h3>
+            <p>The name comes from the memory requirement: to count cardinalities up to N<sub>max</sub>, these algorithms need approximately <strong>log(log(N<sub>max</sub>))</strong> bits. This means cardinalities in the billions can be estimated using just 1-2 kilobytes of memory!</p>
+        </div>
+
+        <div class="algorithm-card">
+            <h2>Performance Comparison</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Algorithm</th>
+                        <th>Year</th>
+                        <th>Memory</th>
+                        <th>Accuracy</th>
+                        <th>Key Innovation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Flajolet-Martin</td>
+                        <td>1985</td>
+                        <td>32 bits</td>
+                        <td>High variance</td>
+                        <td>First probabilistic counting</td>
+                    </tr>
+                    <tr>
+                        <td>LogLog</td>
+                        <td>2003</td>
+                        <td>log(log(N))</td>
+                        <td>Good</td>
+                        <td>Bucketing for variance reduction</td>
+                    </tr>
+                    <tr>
+                        <td>SuperLogLog</td>
+                        <td>2007</td>
+                        <td>log(log(N))</td>
+                        <td>Better</td>
+                        <td>Outlier elimination</td>
+                    </tr>
+                    <tr>
+                        <td>HyperLogLog</td>
+                        <td>2007</td>
+                        <td>log(log(N))</td>
+                        <td>Near-optimal</td>
+                        <td>Harmonic mean + range corrections</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="algorithm-card">
+            <h2>Real-World Impact</h2>
+            <p>HyperLogLog has become the industry standard for cardinality estimation:</p>
+            <ul>
+                <li><strong>Google:</strong> BigQuery, Analytics</li>
+                <li><strong>Facebook:</strong> Audience insights, ad targeting</li>
+                <li><strong>Amazon:</strong> Redshift, DynamoDB</li>
+                <li><strong>Apache:</strong> Spark, Druid, Pinot</li>
+                <li><strong>Redis:</strong> PFADD, PFCOUNT commands</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <h4>Why HyperLogLog Won</h4>
+                <ul>
+                    <li><strong>Accuracy:</strong> Standard error of ~1.04/√m</li>
+                    <li><strong>Memory:</strong> Fixed size regardless of cardinality</li>
+                    <li><strong>Mergeable:</strong> Sketches can be combined</li>
+                    <li><strong>Parallelizable:</strong> Easy to distribute computation</li>
+                </ul>
+            </div>
+        </div>
+
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="hyperloglog.html" style="background: #0085a1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;">Next: HyperLogLog Deep Dive →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="https://www.linkedin.com/in/giacomo-saccaggi/">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/giacomosaccaggi">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; Giacomo Saccaggi 2024 | CardinalityKit Documentation</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="https://giacomosaccaggi.github.io/js/clean-blog.min.js"></script>
+</body>
+</html>

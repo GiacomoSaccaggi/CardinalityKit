@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CardinalityKit Python Package - Professional toolkit for cardinality estimation algorithms">
+    <meta name="author" content="">
+
+    <title>CardinalityKit Package - Cardinality Estimation Documentation</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            color: #404040;
+        }
+        
+        .navbar-custom {
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            border: none;
+        }
+        
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav li a {
+            color: white;
+        }
+        
+        .navbar-custom .navbar-brand:hover,
+        .navbar-custom .nav li a:hover {
+            color: #f0f0f0;
+        }
+        
+        .intro-header {
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            color: white;
+            padding: 100px 0 50px;
+        }
+        
+        .post-heading h1 {
+            font-size: 35px;
+            margin-bottom: 20px;
+        }
+        
+        .post-heading .subheading {
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 0;
+        }
+        
+        .post-content {
+            margin-top: 50px;
+        }
+        
+        .section-heading {
+            font-size: 28px;
+            margin: 40px 0 20px;
+            color: #1a2980;
+            border-bottom: 2px solid #26d0ce;
+            padding-bottom: 10px;
+        }
+        
+        .subsection-heading {
+            font-size: 22px;
+            margin: 30px 0 15px;
+            color: #26d0ce;
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        
+        .feature-box {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #26d0ce;
+        }
+        
+        .algorithm-table {
+            margin: 20px 0;
+        }
+        
+        .algorithm-table th {
+            background-color: #1a2980;
+            color: white;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        
+        .footer a {
+            color: #26d0ce;
+        }
+        
+        .nav-pills > li.active > a {
+            background-color: #26d0ce;
+        }
+        
+        .nav-pills > li > a:hover {
+            background-color: #1a2980;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="https://giacomosaccaggi.github.io">Giacomo Saccaggi</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="fundamentals.html">Fundamentals</a></li>
+                    <li><a href="evolution.html">Evolution</a></li>
+                    <li><a href="hyperloglog.html">HyperLogLog</a></li>
+                    <li><a href="hyperreal.html">HyperReal</a></li>
+                    <li><a href="extended.html">Extended</a></li>
+                    <li><a href="conversion.html">Conversion</a></li>
+                    <li><a href="operations.html">Operations</a></li>
+                    <li><a href="simulations.html">Simulations</a></li>
+                    <li><a href="implementation.html">Implementation</a></li>
+                    <li><a href="applications.html">Applications</a></li>
+                    <li class="active"><a href="package.html">Package</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>CardinalityKit Package</h1>
+                        <h2 class="subheading">Professional Python toolkit for cardinality estimation algorithms</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-content">
+
+                    <h2 class="section-heading">Package Overview</h2>
+                    <p>CardinalityKit is a comprehensive Python package that organizes all cardinality estimation algorithms into a clean, professional toolkit. The package transforms research implementations into production-ready code with object-oriented interfaces, comprehensive documentation, and easy-to-use APIs.</p>
+
+                    <div class="feature-box">
+                        <h4><i class="fa fa-cube"></i> Key Features</h4>
+                        <ul>
+                            <li><strong>Complete Algorithm Suite:</strong> All major cardinality estimation algorithms</li>
+                            <li><strong>Extended Functionality:</strong> Demographic tracking and attribute analysis</li>
+                            <li><strong>Sample Conversion:</strong> Transform sample data to HyperReal sketches</li>
+                            <li><strong>Professional API:</strong> Clean, consistent object-oriented interface</li>
+                            <li><strong>Backward Compatibility:</strong> Maintains compatibility with original research code</li>
+                        </ul>
+                    </div>
+
+                    <h2 class="section-heading">Package Structure</h2>
+                    <p>The package is organized into logical modules for easy navigation and usage:</p>
+
+                    <div class="code-block">cardinalitykit/
+├── algorithms/          # Core estimation algorithms
+│   ├── flajolet_martin.py    # Original FM algorithm (1985)
+│   ├── loglog.py            # LogLog algorithm
+│   ├── superloglog.py       # SuperLogLog with outlier elimination
+│   ├── hyperloglog.py       # Industry-standard HLL
+│   └── hyperreal.py         # Unbiased HyperReal algorithm
+├── extended/           # Extended algorithms with demographics
+│   ├── extended_hyperloglog.py   # HLL with attribute tracking
+│   └── extended_hyperreal.py     # HyperReal with attribute tracking
+├── conversion/         # Sample data conversion
+│   └── sample_to_hyperreal.py    # Sample to HyperReal conversion
+├── utils/             # Utility functions
+│   ├── csv_parser.py         # CSV parsing and hash generation
+│   └── actual_count.py       # Exact counting for validation
+├── examples.py        # Usage examples
+└── README.md         # Comprehensive documentation</div>
+
+                    <h2 class="section-heading">Installation & Setup</h2>
+                    <p>The package can be easily integrated into any Python project:</p>
+
+                    <div class="code-block"># Add to Python path
+import sys
+sys.path.append('/path/to/CardinalityKit')
+
+# Import the package
+import cardinalitykit
+from cardinalitykit import HyperLogLogEstimator, ExtendedHyperLogLogSketch</div>
+
+                    <h3 class="subsection-heading">Dependencies</h3>
+                    <ul>
+                        <li><strong>numpy</strong> ≥ 1.19.0 - Numerical computations</li>
+                        <li><strong>pandas</strong> ≥ 1.1.0 - Data manipulation</li>
+                        <li><strong>tqdm</strong> ≥ 4.50.0 - Progress bars</li>
+                        <li><strong>scipy</strong> ≥ 1.5.0 - Scientific computing</li>
+                    </ul>
+
+                    <h2 class="section-heading">Core Algorithms</h2>
+                    <p>All core algorithms follow a consistent interface pattern for ease of use:</p>
+
+                    <table class="table table-striped algorithm-table">
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>Memory</th>
+                                <th>Accuracy</th>
+                                <th>Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Flajolet-Martin</td>
+                                <td>Low</td>
+                                <td>Basic</td>
+                                <td>Historical reference</td>
+                            </tr>
+                            <tr>
+                                <td>LogLog</td>
+                                <td>Medium</td>
+                                <td>Good</td>
+                                <td>General purpose</td>
+                            </tr>
+                            <tr>
+                                <td>SuperLogLog</td>
+                                <td>Medium</td>
+                                <td>Better</td>
+                                <td>Outlier elimination</td>
+                            </tr>
+                            <tr>
+                                <td>HyperLogLog</td>
+                                <td>Medium</td>
+                                <td>Best</td>
+                                <td>Industry standard</td>
+                            </tr>
+                            <tr>
+                                <td>HyperReal</td>
+                                <td>Medium</td>
+                                <td>Unbiased</td>
+                                <td>Research applications</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3 class="subsection-heading">Basic Usage Pattern</h3>
+                    <div class="code-block">from cardinalitykit import HyperLogLogEstimator
+import hashlib
+
+# Create estimator
+hll = HyperLogLogEstimator(k=10)
+
+# Process data
+data = ["user_1", "user_2", "user_3", "user_1"]
+for item in data:
+    hash_val = '{:32b}'.format(int(hashlib.sha256(item.encode()).hexdigest()[:8], 16))
+    hll.update(hash_val)
+
+# Get results
+estimate = hll.estimate()
+memory_usage = hll.memory_usage()
+print(f"Estimated cardinality: {estimate}")
+print(f"Memory usage: {memory_usage} bytes")</div>
+
+                    <h2 class="section-heading">Extended Algorithms</h2>
+                    <p>Extended algorithms add demographic tracking capabilities to standard cardinality estimation:</p>
+
+                    <div class="code-block">from cardinalitykit import ExtendedHyperLogLogSketch
+
+# Create extended sketch
+ehll = ExtendedHyperLogLogSketch(b_m=8, b_s=8)
+
+# Process events with attributes
+events = [
+    {'id_to_count': 'user_1', 'attribute': 'group_A'},
+    {'id_to_count': 'user_2', 'attribute': 'group_B'},
+    {'id_to_count': 'user_3', 'attribute': 'group_A'},
+    {'id_to_count': 'user_1', 'attribute': 'group_A'}  # Duplicate
+]
+
+for event in events:
+    ehll.update_sketch(event)
+
+# Get results
+total_estimate = ehll.get_cardinality_estimate()
+attribute_frequencies = ehll.get_frequency_for_attr()
+
+print(f"Total cardinality: {total_estimate}")
+print(f"Group A frequency: {ehll.get_frequency_for_attr('group_A')}")
+print(f"All attributes: {attribute_frequencies}")</div>
+
+                    <div class="highlight">
+                        <strong>Key Features of Extended Algorithms:</strong>
+                        <ul>
+                            <li>Track frequency counts per demographic attribute</li>
+                            <li>Maintain attribute samples for collision resolution</li>
+                            <li>Provide per-attribute cardinality estimates</li>
+                            <li>Support both HyperLogLog and HyperReal base algorithms</li>
+                        </ul>
+                    </div>
+
+                    <h2 class="section-heading">Sample Conversion</h2>
+                    <p>The conversion module enables transformation of sample data (e.g., survey panels) into HyperReal sketches:</p>
+
+                    <div class="code-block">from cardinalitykit import ExtendedHyperRealSketchFromSample
+
+# Sample data: (id, weight, attribute)
+sample_data = [
+    ("sample_1", 0.4, "demographic_A"),
+    ("sample_2", 0.3, "demographic_B"),
+    ("sample_3", 0.3, "demographic_A")
+]
+
+# Create converter
+converter = ExtendedHyperRealSketchFromSample(b_m=8, sample_data=sample_data)
+
+# Run conversion (choose method)
+converter.naive_associate(sum_weights=10000)    # Simple method
+# converter.fast_associate(sum_weights=10000, D=15)  # Optimized method
+
+# Get results
+estimate = converter.get_cardinality_estimate()
+attr_frequencies = converter.get_frequency_for_attr()
+
+print(f"Converted cardinality: {estimate}")
+for attr, freq in attr_frequencies.items():
+    print(f"{attr}: {freq}")</div>
+
+                    <h3 class="subsection-heading">Conversion Methods</h3>
+                    <ul>
+                        <li><strong>Naive Associate:</strong> Simple one-to-one virtual person assignment</li>
+                        <li><strong>Fast Associate:</strong> Optimized method with depth parameter for better accuracy</li>
+                    </ul>
+
+                    <h2 class="section-heading">Utility Functions</h2>
+                    <p>The package includes comprehensive utilities for data processing and validation:</p>
+
+                    <h3 class="subsection-heading">CSV Processing</h3>
+                    <div class="code-block">from cardinalitykit.utils import CSVParser, parse_csv
+
+# Create parser
+parser = CSVParser(row_limit=1000)  # Optional row limit
+
+# Parse specific columns
+data = parse_csv('data.csv', columns=[0, 1, 3])
+
+# Generate hashes from column
+hashes = parser.create_hashes_from_column('data.csv', column_index=1)
+
+# Count lines
+total_rows = parser.count_lines('data.csv')</div>
+
+                    <h3 class="subsection-heading">Exact Counting for Validation</h3>
+                    <div class="code-block">from cardinalitykit.utils import get_exact_unique_using_set
+
+# Get exact count for comparison
+exact_count, memory_used = get_exact_unique_using_set('data.csv', column_index=1)
+print(f"Exact unique count: {exact_count}")
+print(f"Memory used: {memory_used} bytes")</div>
+
+                    <h2 class="section-heading">Complete Example</h2>
+                    <p>Here's a comprehensive example demonstrating algorithm comparison:</p>
+
+                    <div class="code-block">from cardinalitykit import *
+import hashlib
+
+def algorithm_comparison():
+    # Create sample data
+    data = [f"user_{i}" for i in range(5000)]
+    
+    # Initialize algorithms
+    algorithms = {
+        'Flajolet-Martin': FlajoletMartinEstimator(),
+        'LogLog': LogLogEstimator(k=8),
+        'SuperLogLog': SuperLogLogEstimator(k=8),
+        'HyperLogLog': HyperLogLogEstimator(k=8),
+        'HyperReal': HyperRealEstimator(k=8)
+    }
+    
+    # Process data
+    for name, alg in algorithms.items():
+        for item in data:
+            hash_val = '{:32b}'.format(int(hashlib.sha256(item.encode()).hexdigest()[:8], 16))
+            alg.update(hash_val)
+    
+    # Compare results
+    actual = len(set(data))
+    print(f"Actual unique count: {actual}")
+    print("-" * 50)
+    
+    for name, alg in algorithms.items():
+        estimate = alg.estimate()
+        error = abs(estimate - actual) / actual * 100
+        memory = alg.memory_usage()
+        print(f"{name:15}: {estimate:8.0f} ({error:5.2f}% error, {memory:4d} bytes)")
+
+# Run comparison
+algorithm_comparison()</div>
+
+                    <h2 class="section-heading">API Reference</h2>
+                    
+                    <h3 class="subsection-heading">Core Algorithm Interface</h3>
+                    <div class="feature-box">
+                        <ul>
+                            <li><code>__init__(k)</code> - Initialize with k bits for bucket indexing</li>
+                            <li><code>update(hash_value)</code> - Process a hash value</li>
+                            <li><code>estimate()</code> - Get cardinality estimate</li>
+                            <li><code>memory_usage()</code> - Get memory usage in bytes</li>
+                        </ul>
+                    </div>
+
+                    <h3 class="subsection-heading">Extended Algorithm Interface</h3>
+                    <div class="feature-box">
+                        <ul>
+                            <li><code>__init__(b_m, b_s)</code> - Initialize with bucket and indicator bits</li>
+                            <li><code>update_sketch(event)</code> - Process event with id and attribute</li>
+                            <li><code>get_cardinality_estimate()</code> - Get total cardinality</li>
+                            <li><code>get_frequency_for_attr(attr)</code> - Get frequency for specific attribute</li>
+                            <li><code>get_sketch()</code> - Get internal data structures</li>
+                        </ul>
+                    </div>
+
+                    <h3 class="subsection-heading">Conversion Algorithm Interface</h3>
+                    <div class="feature-box">
+                        <ul>
+                            <li><code>__init__(b_m, sample_data)</code> - Initialize with sample data</li>
+                            <li><code>naive_associate(sum_weights)</code> - Simple conversion method</li>
+                            <li><code>fast_associate(sum_weights, D)</code> - Optimized conversion method</li>
+                            <li><code>get_cardinality_estimate()</code> - Get converted cardinality</li>
+                            <li><code>get_frequency_for_attr(attr)</code> - Get attribute frequencies</li>
+                        </ul>
+                    </div>
+
+                    <h2 class="section-heading">Best Practices</h2>
+                    
+                    <div class="highlight">
+                        <h4>Algorithm Selection Guidelines</h4>
+                        <ul>
+                            <li><strong>HyperLogLog:</strong> Default choice for most applications</li>
+                            <li><strong>HyperReal:</strong> When unbiased estimates are critical</li>
+                            <li><strong>Extended versions:</strong> When demographic analysis is needed</li>
+                            <li><strong>Sample conversion:</strong> For privacy-preserving analytics</li>
+                        </ul>
+                    </div>
+
+                    <h3 class="subsection-heading">Parameter Selection</h3>
+                    <ul>
+                        <li><strong>k parameter:</strong> Start with k=10 (1024 buckets) for most applications</li>
+                        <li><strong>Higher k:</strong> Better accuracy but more memory usage</li>
+                        <li><strong>Lower k:</strong> Less memory but reduced accuracy</li>
+                        <li><strong>Extended algorithms:</strong> Use b_m = b_s for balanced performance</li>
+                    </ul>
+
+                    <h3 class="subsection-heading">Performance Considerations</h3>
+                    <ul>
+                        <li>Hash quality is critical - use strong hash functions</li>
+                        <li>Extended algorithms have higher memory overhead</li>
+                        <li>Sample conversion methods scale with virtual population size</li>
+                        <li>Batch processing improves performance for large datasets</li>
+                    </ul>
+
+                    <h2 class="section-heading">Integration Examples</h2>
+                    
+                    <h3 class="subsection-heading">Data Pipeline Integration</h3>
+                    <div class="code-block">import pandas as pd
+from cardinalitykit import HyperLogLogEstimator
+import hashlib
+
+def process_dataframe(df, id_column):
+    """Process pandas DataFrame with HyperLogLog"""
+    hll = HyperLogLogEstimator(k=12)
+    
+    for user_id in df[id_column]:
+        hash_val = '{:32b}'.format(int(hashlib.sha256(str(user_id).encode()).hexdigest()[:8], 16))
+        hll.update(hash_val)
+    
+    return hll.estimate()
+
+# Usage
+df = pd.read_csv('user_data.csv')
+unique_users = process_dataframe(df, 'user_id')
+print(f"Estimated unique users: {unique_users}")</div>
+
+                    <h3 class="subsection-heading">Real-time Stream Processing</h3>
+                    <div class="code-block">from cardinalitykit import HyperLogLogEstimator
+import hashlib
+
+class StreamProcessor:
+    def __init__(self, k=10):
+        self.hll = HyperLogLogEstimator(k=k)
+        self.processed_count = 0
+    
+    def process_event(self, user_id):
+        """Process single event from stream"""
+        hash_val = '{:32b}'.format(int(hashlib.sha256(str(user_id).encode()).hexdigest()[:8], 16))
+        self.hll.update(hash_val)
+        self.processed_count += 1
+    
+    def get_current_estimate(self):
+        """Get current cardinality estimate"""
+        return {
+            'unique_estimate': self.hll.estimate(),
+            'total_processed': self.processed_count,
+            'memory_usage': self.hll.memory_usage()
+        }
+
+# Usage
+processor = StreamProcessor(k=12)
+# Process events as they arrive
+processor.process_event('user_123')
+processor.process_event('user_456')
+stats = processor.get_current_estimate()</div>
+
+                    <div class="highlight">
+                        <h4>Production Deployment Tips</h4>
+                        <ul>
+                            <li>Monitor memory usage in production environments</li>
+                            <li>Implement proper error handling for malformed data</li>
+                            <li>Consider sketch serialization for persistence</li>
+                            <li>Use appropriate logging for debugging and monitoring</li>
+                        </ul>
+                    </div>
+
+                    <p>The CardinalityKit package provides a complete, professional solution for cardinality estimation needs, from research and development to production deployment. Its clean API, comprehensive documentation, and extensive examples make it suitable for both academic research and industrial applications.</p>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="https://github.com/giacomosaccaggi">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://linkedin.com/in/giacomo-saccaggi">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; Giacomo Saccaggi 2024</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

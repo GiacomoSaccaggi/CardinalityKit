@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fundamentals of Methodology - HyperReal Documentation">
+    <meta name="author" content="Giacomo Saccaggi">
+
+    <title>Fundamentals of Methodology - HyperReal Documentation</title>
+    <link rel="shortcut icon" href="https://image.flaticon.com/icons/png/512/413/413772.png" />
+
+    <!-- Bootstrap Core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            color: #404040;
+            background-color: #f8f9fa;
+        }
+        
+        .navbar-custom {
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 3;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .navbar-custom .navbar-brand {
+            font-weight: 800;
+            color: #404040;
+        }
+        
+        .navbar-custom .nav li a {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #404040;
+        }
+        
+        .intro-header {
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            background-size: cover;
+            margin-bottom: 50px;
+            color: white;
+            padding: 100px 0 50px;
+        }
+        
+        .intro-header .page-heading h1 {
+            font-size: 50px;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 800;
+            margin-top: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .intro-header .page-heading .subheading {
+            font-size: 20px;
+            line-height: 1.1;
+            display: block;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+        
+        .nav-breadcrumb {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .nav-breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .nav-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 40px;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid #007bff;
+        }
+        
+        .content-section h2 {
+            color: #2c3e50;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        .content-section h3 {
+            color: #495057;
+            font-weight: 700;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        
+        .highlight-box h3 {
+            margin-top: 0;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+        
+        .code-snippet {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            line-height: 1.4;
+            font-size: 14px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .visual-example {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .visual-example h4 {
+            color: #0066cc;
+            margin-top: 0;
+            font-weight: 700;
+        }
+        
+        .math-formula {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .math-formula h4 {
+            color: #856404;
+            margin-top: 0;
+            font-weight: 700;
+        }
+        
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .property-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .property-card h4 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-weight: 700;
+        }
+        
+        .navigation-footer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .navigation-footer a {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            margin: 0 10px;
+            display: inline-block;
+        }
+        
+        .navigation-footer a:hover {
+            background: #0056b3;
+            color: white;
+            text-decoration: none;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 50px 0;
+            margin-top: 50px;
+        }
+        
+        footer .list-inline {
+            margin: 0;
+            padding: 0;
+        }
+        
+        footer .copyright {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 0;
+        }
+        
+        .fa-stack {
+            color: #2c3e50;
+        }
+        
+        .fa-stack:hover {
+            color: #667eea;
+        }
+        
+        @media only screen and (max-width: 768px) {
+            .intro-header .page-heading h1 {
+                font-size: 35px;
+            }
+            .content-section {
+                padding: 25px;
+            }
+        }
+    </style>
+
+    <style>
+        body {
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            color: #404040;
+            background-color: #f8f9fa;
+        }
+
+        .navbar-custom {
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 3;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            border-bottom: 1px solid #eee;
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: 800;
+            color: #404040;
+        }
+
+        .navbar-custom .nav li a {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #404040;
+        }
+
+        .intro-header {
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            background-size: cover;
+            margin-bottom: 50px;
+            color: white;
+            padding: 150px 0 100px;
+        }
+
+        .intro-header .site-heading h1 {
+            font-size: 80px;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 800;
+            margin-top: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .intro-header .site-heading .subheading {
+            font-size: 24px;
+            line-height: 1.1;
+            display: block;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+
+        .intro-header .site-heading hr {
+            border-color: white;
+            margin: 30px 0;
+        }
+
+        .post-preview {
+            margin-bottom: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #007bff;
+        }
+
+        .post-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .post-preview a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .post-preview .post-title {
+            font-size: 30px;
+            font-weight: 800;
+            margin: 0 0 10px;
+            color: #2c3e50;
+        }
+
+        .post-preview .post-subtitle {
+            font-weight: 300;
+            margin: 0 0 10px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .post-meta {
+            font-size: 14px;
+            color: #999;
+            margin-top: 15px;
+        }
+
+        .problem-statement {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .problem-statement h2 {
+            color: #856404;
+            margin-top: 0;
+            font-weight: 800;
+        }
+
+        .highlight-box {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin: 50px 0 30px;
+            font-size: 36px;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+
+        .icon-preview {
+            float: left;
+            width: 80px;
+            height: 80px;
+            margin: 0 20px 20px 0;
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 50px 0;
+            margin-top: 50px;
+        }
+
+        footer .list-inline {
+            margin: 0;
+            padding: 0;
+        }
+
+        footer .copyright {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .fa-stack {
+            color: #2c3e50;
+        }
+
+        .fa-stack:hover {
+            color: #667eea;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .intro-header .site-heading h1 {
+                font-size: 80px;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .intro-header .site-heading h1 {
+                font-size: 55px;
+            }
+            .icon-preview {
+                float: none;
+                margin: 0 auto 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="https://giacomosaccaggi.github.io/">Giacomo Saccaggi</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="https://giacomosaccaggi.github.io/">Home</a>
+                    </li>
+                    <li>
+                        <a href="index.html">HyperReal Docs</a>
+                    </li>
+                    <li>
+                        <a href="https://giacomosaccaggi.github.io/all.html">All Projects</a>
+                    </li>
+                    <li>
+                        <a href="https://giacomosaccaggi.github.io/contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="page-heading">
+                        <h1>🔬 Fundamentals of Methodology</h1>
+                        <hr class="small">
+                        <span class="subheading">Understanding the Mathematical Foundations of Cardinality Estimation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                <!-- Breadcrumb Navigation -->
+                <div class="nav-breadcrumb">
+                    <a href="index.html">← Back to HyperReal Documentation</a>
+                </div>
+
+                <div class="content-section">
+                    <h2>The Foundation: Hashing Properties</h2>
+            <p>The foundation of cardinality estimation methodology lies in hashing. Hashing creates a uniform expansion from input data into the binary universe, enabling probabilistic counting techniques.</p>
+            
+            <div class="highlight-box">
+                <h3>🔍 The "Secret Zoom" Analogy</h3>
+                <p>Think of hashing like using binoculars to discover stars in a seemingly starless part of the sky. Similarly, hashing takes strings without intrinsic meaning and expands them uniformly, allowing us to count distinct elements probabilistically.</p>
+                </div>
+                </div>
+
+                <div class="content-section">
+                    <h2>Two Critical Hashing Properties</h2>
+            
+            <div class="property-grid">
+                <div class="property-card">
+                    <h4>1. Uniform Expansion</h4>
+                    <p>The hash output should be uniformly distributed across the entire hash space to minimize collisions and ensure accurate probabilistic estimates.</p>
+                </div>
+                
+                <div class="property-card">
+                    <h4>2. Significance of Bits</h4>
+                    <p>Significant bits are on the right, least significant on the left. Each bit from right to left divides the hash space into two equal parts due to uniformity.</p>
+                </div>
+                </div>
+                </div>
+
+                <div class="content-section">
+                    <h2>Hashing Implementation: From Simple to Cryptographic</h2>
+            
+            <h3>Simple Hashing Example</h3>
+            <div class="visual-example">
+                <h4>Encoding "HELLO":</h4>
+                <p><strong>Step 1:</strong> ASCII Conversion</p>
+                <ul>
+                    <li>'H' → 72 → 01001000</li>
+                    <li>'E' → 69 → 01000101</li>
+                    <li>'L' → 76 → 01001100</li>
+                    <li>'L' → 76 → 01001100</li>
+                    <li>'O' → 79 → 01001111</li>
+                </ul>
+                <p><strong>Result:</strong> 01001000 01000101 01001100 01001100 01001111</p>
+            </div>
+
+            <div class="code-snippet">
+def simple_hash(text):
+    key = 75  # Constant key
+    hashed_text = bytearray()
+    
+    for byte in bytearray(text, 'ascii'):
+        hashed_byte = (byte & 0xFF)
+        hashed_byte = hashed_byte >> 1  # Right shift
+        hashed_byte = hashed_byte ^ key  # XOR with key
+        hashed_text.append(hashed_byte)
+    
+    return bytes(hashed_text)
+            </div>
+
+            <p><strong>Problems with Simple Hashing:</strong></p>
+            <ul>
+                <li>2 collisions per byte</li>
+                <li>Static key vulnerability</li>
+                <li>Small changes don't produce significantly different results</li>
+                </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2>Cryptographic Hashing Properties</h2>
+            
+            <div class="property-grid">
+                <div class="property-card">
+                    <h4>Deterministic</h4>
+                    <p>Same input always produces same hash value</p>
+                </div>
+                
+                <div class="property-card">
+                    <h4>Unique</h4>
+                    <p>Different inputs generate different hash values</p>
+                </div>
+                
+                <div class="property-card">
+                    <h4>Fast</h4>
+                    <p>Computationally efficient for large datasets</p>
+                </div>
+                
+                <div class="property-card">
+                    <h4>Uniform Distribution</h4>
+                    <p>Hash output uniformly distributed across hash space</p>
+                </div>
+                
+                <div class="property-card">
+                    <h4>Collision Resistance</h4>
+                    <p>Difficult to find two inputs with same hash</p>
+                </div>
+                
+                <div class="property-card">
+                    <h4>Avalanche Effect</h4>
+                    <p>Small input changes cause large hash differences</p>
+                </div>
+                </div>
+                </div>
+
+                <div class="content-section">
+                    <h2>Double Hashing for Enhanced Entropy</h2>
+            <p>CardinalityKit uses double hashing to increase entropy and improve uniformity:</p>
+            
+            <div class="code-snippet">
+def _hash_function(self, data):
+    # Double hashing for increased entropy
+    inner_hash = hashlib.sha256(str(data).encode('utf-8')).hexdigest()
+    outer_hash = hashlib.sha256(str(inner_hash).encode('utf-8')).hexdigest()
+    
+    # Convert to 256-bit binary with zero padding
+    hashed_ = '{:256b}'.format(int(outer_hash, 16)).replace(' ', '0')
+    
+    return hashed_
+                </div>
+                </div>
+
+                <div class="content-section">
+                    <h2>Binary Conversion Mathematics</h2>
+            
+            <div class="math-formula">
+                <h4>Binary Conversion Formula:</h4>
+                <p>Quotient₁ = ⌊N/2⌋, Remainder₁ = N mod 2</p>
+                <p>Quotient₂ = ⌊Quotient₁/2⌋, Remainder₂ = Quotient₁ mod 2</p>
+                <p>...</p>
+                <p>Binary = (Remainderₖ, Remainderₖ₋₁, ..., Remainder₂, Remainder₁)₂</p>
+            </div>
+
+            <div class="visual-example">
+                <h4>Example: Converting 72 to Binary</h4>
+                <ol>
+                    <li>72 ÷ 2 = 36, remainder 0</li>
+                    <li>36 ÷ 2 = 18, remainder 0</li>
+                    <li>18 ÷ 2 = 9, remainder 0</li>
+                    <li>9 ÷ 2 = 4, remainder 1</li>
+                    <li>4 ÷ 2 = 2, remainder 0</li>
+                    <li>2 ÷ 2 = 1, remainder 0</li>
+                    <li>1 ÷ 2 = 0, remainder 1</li>
+                </ol>
+                <p><strong>Result:</strong> 01001000 (reading remainders bottom to top)</p>
+                </div>
+                </div>
+
+                <div class="content-section">
+                    <h2>Why Zero Counting Works</h2>
+            
+            <div class="highlight-box">
+                <h3>🎲 Coin Flip Analogy</h3>
+                <p>HyperLogLog's zero counting is based on calculating how many coin flips are needed for a specific pattern. For three consecutive 'heads':</p>
+                <ul>
+                    <li>Probability of 'heads' = 0.5</li>
+                    <li>Probability of 'HHH' = 0.5 × 0.5 × 0.5 = 0.125</li>
+                    <li>Expected flips needed = 1/0.125 = 8 flips</li>
+                </ul>
+                <p>This geometric distribution principle underlies cardinality estimation through zero counting.</p>
+            </div>
+
+            <div class="math-formula">
+                <h4>Geometric Distribution Mean:</h4>
+                <p>E[X] = 1/p</p>
+                <p>where p is the probability of success</p>
+                </div>
+                </div>
+
+                <div class="content-section">
+                    <h2>From Hashing to Sketches</h2>
+            <p>The uniform hashing properties enable us to:</p>
+            <ol>
+                <li><strong>Bucket Assignment:</strong> Use first k bits to assign elements to 2^k buckets</li>
+                <li><strong>Rank Calculation:</strong> Count trailing zeros in remaining bits</li>
+                <li><strong>Cardinality Estimation:</strong> Apply mathematical formulas based on bucket statistics</li>
+                <li><strong>Bias Correction:</strong> Adjust estimates using algorithm-specific factors</li>
+            </ol>
+
+            <div class="code-snippet">
+# Example: Extracting bucket and rank from hash
+def process_hash(hash_binary, k):
+    # First k bits determine bucket
+    bucket = int(hash_binary[:k], 2)
+    
+    # Remaining bits used for rank calculation
+    remaining_bits = hash_binary[k:]
+    
+    # Count trailing zeros (rank)
+    rank = 1
+    for bit in reversed(remaining_bits):
+        if bit == "0":
+            rank += 1
+        else:
+            break
+    
+    return bucket, rank
+                </div>
+                </div>
+
+                <div class="content-section">
+                    <h2>Key Takeaways</h2>
+            <ul>
+                <li><strong>Uniform Distribution:</strong> Critical for accurate probabilistic estimates</li>
+                <li><strong>Double Hashing:</strong> Increases entropy and reduces bias</li>
+                <li><strong>Bit Significance:</strong> Right bits are most significant for uniformity</li>
+                <li><strong>Zero Counting:</strong> Based on geometric distribution principles</li>
+                <li><strong>Scalability:</strong> Memory usage scales as log(log(N)) vs linear for exact counting</li>
+                </ul>
+                </div>
+
+                <!-- Navigation Footer -->
+                <div class="navigation-footer">
+                    <a href="algorithm-evolution.html">Next: Algorithm Evolution →</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="https://twitter.com/SaccaggiGiacomo">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/in/giacomo-saccaggi-782439163/">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/GiacomoSaccaggi/">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; Giacomo Saccaggi - HyperReal Documentation</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

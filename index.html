@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="HyperReal: Advanced Cardinality Estimation for Privacy-Preserving Analytics">
+    <meta name="author" content="Giacomo Saccaggi">
+
+    <title>HyperReal Documentation - Giacomo Saccaggi</title>
+    <link rel="shortcut icon" href="https://image.flaticon.com/icons/png/512/413/413772.png" />
+
+    <!-- Bootstrap Core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            color: #404040;
+            background-color: #f8f9fa;
+        }
+        
+        .navbar-custom {
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 3;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .navbar-custom .navbar-brand {
+            font-weight: 800;
+            color: #404040;
+        }
+        
+        .navbar-custom .nav li a {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #404040;
+        }
+        
+        .intro-header {
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            background-size: cover;
+            margin-bottom: 50px;
+            color: white;
+            padding: 150px 0 100px;
+        }
+        
+        .intro-header .site-heading h1 {
+            font-size: 80px;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 800;
+            margin-top: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .intro-header .site-heading .subheading {
+            font-size: 24px;
+            line-height: 1.1;
+            display: block;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+        
+        .intro-header .site-heading hr {
+            border-color: white;
+            margin: 30px 0;
+        }
+        
+        .post-preview {
+            margin-bottom: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #007bff;
+        }
+        
+        .post-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .post-preview a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .post-preview .post-title {
+            font-size: 30px;
+            font-weight: 800;
+            margin: 0 0 10px;
+            color: #2c3e50;
+        }
+        
+        .post-preview .post-subtitle {
+            font-weight: 300;
+            margin: 0 0 10px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .post-meta {
+            font-size: 14px;
+            color: #999;
+            margin-top: 15px;
+        }
+        
+        .problem-statement {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .problem-statement h2 {
+            color: #856404;
+            margin-top: 0;
+            font-weight: 800;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .highlight-box h3 {
+            margin-top: 0;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+        
+        .section-heading {
+            text-align: center;
+            margin: 50px 0 30px;
+            font-size: 36px;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+        
+        .icon-preview {
+            float: left;
+            width: 80px;
+            height: 80px;
+            margin: 0 20px 20px 0;
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 50px 0;
+            margin-top: 50px;
+        }
+        
+        footer .list-inline {
+            margin: 0;
+            padding: 0;
+        }
+        
+        footer .copyright {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 0;
+        }
+        
+        .fa-stack {
+            color: #2c3e50;
+        }
+        
+        .fa-stack:hover {
+            color: #667eea;
+        }
+        
+        @media only screen and (min-width: 768px) {
+            .intro-header .site-heading h1 {
+                font-size: 80px;
+            }
+        }
+        
+        @media only screen and (max-width: 768px) {
+            .intro-header .site-heading h1 {
+                font-size: 55px;
+            }
+            .icon-preview {
+                float: none;
+                margin: 0 auto 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="https://giacomosaccaggi.github.io/">Giacomo Saccaggi</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="https://giacomosaccaggi.github.io/">Home</a>
+                    </li>
+                    <li>
+                        <a href="https://giacomosaccaggi.github.io/all.html">All Projects</a>
+                    </li>
+                    <li>
+                        <a href="https://giacomosaccaggi.github.io/contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>HyperReal</h1>
+                        <hr class="small">
+                        <span class="subheading">Advanced Cardinality Estimation for Privacy-Preserving Analytics</span>
+                        <br><br>
+                        <span style="font-size: 18px; opacity: 0.8;">HLL-based Audience Extrapolation Compatible with Online Measurement</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                <!-- Overview Section -->
+                <div class="post-preview" style="border-left-color: #007bff;">
+                    <h2 class="post-title">Overview</h2>
+                    <p class="post-subtitle">
+                        This documentation explores advanced cardinality estimation algorithms, focusing on HyperLogLog (HLL) and HyperReal (HR) sketching techniques for privacy-preserving analytics. These methods enable accurate audience measurement and cross-platform deduplication without exposing individual user data.
+                    </p>
+                </div>
+
+                <!-- Problem Statement -->
+                <div class="problem-statement">
+                    <h2>Problem Statement</h2>
+                    <p><strong>For RAM or PRIVACY reasons we cannot:</strong></p>
+                    <ul>
+                        <li>Count unique hashed users directly</li>
+                        <li>Count unique hashed users by demographic attributes</li>
+                        <li>Join hashed users across providers (e.g., Google and Facebook)</li>
+                        <li>Join hashed users across platforms within the same provider</li>
+                    </ul>
+                    <p><strong>Goal:</strong> Deduplicate audiences between census (online) and panel (TV) data without direct links, both at total and demographic levels.</p>
+                </div>
+
+                <!-- Key Innovation -->
+                <div class="highlight-box">
+                    <h3>Key Innovation</h3>
+                    <p>HyperReal provides an <strong>unbiased</strong> alternative to HyperLogLog, enabling more accurate cardinality estimation while maintaining the same privacy and memory efficiency benefits.</p>
+                </div>
+
+                <hr>
+                <h2 class="section-heading">Documentation Sections</h2>
+
+                <!-- Documentation Links -->
+                <div class="post-preview" style="border-left-color: #17a2b8;">
+                    <a href="documentation/fundamentals.html">
+                        <div class="icon-preview">🔬</div>
+                        <h2 class="post-title">Fundamentals of Methodology</h2>
+                        <h3 class="post-subtitle">
+                            Understanding hashing properties, uniform distribution, and the mathematical foundations underlying HLL sketches.
+                        </h3>
+                    </a>
+                    <p class="post-meta">Mathematical foundations and core concepts</p>
+                </div>
+
+                <div class="post-preview" style="border-left-color: #28a745;">
+                    <a href="documentation/algorithm-evolution.html">
+                        <div class="icon-preview">📈</div>
+                        <h2 class="post-title">Algorithm Evolution</h2>
+                        <h3 class="post-subtitle">
+                            From Flajolet-Martin (1985) to HyperLogLog (2007) - the complete evolution of cardinality estimation algorithms.
+                        </h3>
+                    </a>
+                    <p class="post-meta">Historical development and algorithmic improvements</p>
+                </div>
+
+                <div class="post-preview" style="border-left-color: #007bff;">
+                    <a href="documentation/hyperloglog.html">
+                        <div class="icon-preview">🎯</div>
+                        <h2 class="post-title">HyperLogLog Sketches</h2>
+                        <h3 class="post-subtitle">
+                            Deep dive into HyperLogLog implementation, bias correction, and range corrections with practical code examples.
+                        </h3>
+                    </a>
+                    <p class="post-meta">Industry standard algorithm implementation</p>
+                </div>
+
+                <div class="post-preview" style="border-left-color: #ffc107;">
+                    <a href="documentation/hyperreal.html">
+                        <div class="icon-preview">⚡</div>
+                        <h2 class="post-title">HyperReal Algorithm</h2>
+                        <h3 class="post-subtitle">
+                            The unbiased alternative to HLL - mathematical foundations, implementation, and performance comparisons.
+                        </h3>
+                    </a>
+                    <p class="post-meta">Next-generation unbiased cardinality estimation</p>
+                </div>
+
+                <div class="post-preview" style="border-left-color: #6f42c1;">
+                    <a href="documentation/extended-algorithms.html">
+                        <div class="icon-preview">🔍</div>
+                        <h2 class="post-title">Extended Algorithms</h2>
+                        <h3 class="post-subtitle">
+                            Enhanced HLL and HR with demographic tracking capabilities for attribute-aware cardinality estimation.
+                        </h3>
+                    </a>
+                    <p class="post-meta">Demographic-aware cardinality estimation</p>
+                </div>
+
+                <div class="post-preview" style="border-left-color: #e83e8c;">
+                    <a href="documentation/panel-conversion.html">
+                        <div class="icon-preview">📺</div>
+                        <h2 class="post-title">Panel to HyperReal</h2>
+                        <h3 class="post-subtitle">
+                            Converting TV panel data to HyperReal sketches using naive and fast association methods.
+                        </h3>
+                    </a>
+                    <p class="post-meta">TV audience measurement integration</p>
+                </div>
+
+                <div class="post-preview" style="border-left-color: #20c997;">
+                    <a href="documentation/sketch-operations.html">
+                        <div class="icon-preview">🔄</div>
+                        <h2 class="post-title">Sketch Operations</h2>
+                        <h3 class="post-subtitle">
+                            Merging sketches for union and intersection operations, enabling cross-platform analytics.
+                        </h3>
+                    </a>
+                    <p class="post-meta">Cross-platform data integration</p>
+                </div>
+
+                <div class="post-preview" style="border-left-color: #fd7e14;">
+                    <a href="documentation/simulations.html">
+                        <div class="icon-preview">📊</div>
+                        <h2 class="post-title">Simulations & Results</h2>
+                        <h3 class="post-subtitle">
+                            Comprehensive performance analysis using NYC parking violations dataset with accuracy and memory comparisons.
+                        </h3>
+                    </a>
+                    <p class="post-meta">Real-world performance validation</p>
+                </div>
+
+                <div class="post-preview" style="border-left-color: #495057;">
+                    <a href="documentation/implementation.html">
+                        <div class="icon-preview">💻</div>
+                        <h2 class="post-title">Implementation Guide</h2>
+                        <h3 class="post-subtitle">
+                            Complete Python implementations with code examples, best practices, and optimization techniques.
+                        </h3>
+                    </a>
+                    <p class="post-meta">Production-ready code and best practices</p>
+                </div>
+
+                <div class="post-preview" style="border-left-color: #dc3545;">
+                    <a href="documentation/applications.html">
+                        <div class="icon-preview">🎯</div>
+                        <h2 class="post-title">Real-World Applications</h2>
+                        <h3 class="post-subtitle">
+                            Privacy-preserving audience measurement, cross-platform deduplication, and scalable analytics solutions.
+                        </h3>
+                    </a>
+                    <p class="post-meta">Industry use cases and deployment patterns</p>
+                </div>
+
+                <div class="post-preview" style="border-left-color: #6c757d;">
+                    <a href="documentation/package.html">
+                        <div class="icon-preview">📦</div>
+                        <h2 class="post-title">CardinalityKit Package</h2>
+                        <h3 class="post-subtitle">
+                            Professional Python toolkit with clean APIs, comprehensive examples, and production-ready implementations.
+                        </h3>
+                    </a>
+                    <p class="post-meta">Complete software package and documentation</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="https://twitter.com/SaccaggiGiacomo">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/in/giacomo-saccaggi-782439163/">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/GiacomoSaccaggi/">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; Giacomo Saccaggi - HyperReal Documentation</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="CardinalityKit Documentation">
+    <title>Real-World Applications - CardinalityKit Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Privacy-preserving analytics applications in media, technology, finance, and healthcare">
+    <link rel="canonical" href="https://giacomosaccaggi.github.io/CardinalityKit/applications.html">
+    <link rel="alternate" type="application/rss+xml" title="Giacomo Saccaggi" href="https://giacomosaccaggi.github.io/feed.xml">
+    
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://giacomosaccaggi.github.io/css/clean-blog.css">
+    
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="https://giacomosaccaggi.github.io/css/syntax.css">
+    
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    
+    <style>
+        pre code {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            display: block;
+            padding: 10px;
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.4;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #0085a1;
+        }
+        .highlight-box {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .code-snippet {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            line-height: 1.4;
+            font-size: 14px;
+        }
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .use-case-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .media-card {
+            border-left: 5px solid #0085a1;
+        }
+        .tech-card {
+            border-left: 5px solid #28a745;
+        }
+        .finance-card {
+            border-left: 5px solid #ffc107;
+        }
+        .privacy-card {
+            border-left: 5px solid #6f42c1;
+        }
+        .architecture-diagram {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .flow-step {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px;
+            display: inline-block;
+            min-width: 120px;
+        }
+        .arrow {
+            font-size: 1.5em;
+            color: #0085a1;
+            margin: 0 10px;
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .benefit-card {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        .challenge-card {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+    </style>
+
+    <style>
+        body {
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            color: #404040;
+            background-color: #f8f9fa;
+        }
+
+        .navbar-custom {
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 3;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            border-bottom: 1px solid #eee;
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: 800;
+            color: #404040;
+        }
+
+        .navbar-custom .nav li a {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #404040;
+        }
+
+        .intro-header {
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            background-size: cover;
+            margin-bottom: 50px;
+            color: white;
+            padding: 150px 0 100px;
+        }
+
+        .intro-header .site-heading h1 {
+            font-size: 80px;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 800;
+            margin-top: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .intro-header .site-heading .subheading {
+            font-size: 24px;
+            line-height: 1.1;
+            display: block;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+
+        .intro-header .site-heading hr {
+            border-color: white;
+            margin: 30px 0;
+        }
+
+        .post-preview {
+            margin-bottom: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #007bff;
+        }
+
+        .post-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .post-preview a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .post-preview .post-title {
+            font-size: 30px;
+            font-weight: 800;
+            margin: 0 0 10px;
+            color: #2c3e50;
+        }
+
+        .post-preview .post-subtitle {
+            font-weight: 300;
+            margin: 0 0 10px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .post-meta {
+            font-size: 14px;
+            color: #999;
+            margin-top: 15px;
+        }
+
+        .problem-statement {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .problem-statement h2 {
+            color: #856404;
+            margin-top: 0;
+            font-weight: 800;
+        }
+
+        .highlight-box {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin: 50px 0 30px;
+            font-size: 36px;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+
+        .icon-preview {
+            float: left;
+            width: 80px;
+            height: 80px;
+            margin: 0 20px 20px 0;
+            background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 50px 0;
+            margin-top: 50px;
+        }
+
+        footer .list-inline {
+            margin: 0;
+            padding: 0;
+        }
+
+        footer .copyright {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .fa-stack {
+            color: #2c3e50;
+        }
+
+        .fa-stack:hover {
+            color: #667eea;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .intro-header .site-heading h1 {
+                font-size: 80px;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .intro-header .site-heading h1 {
+                font-size: 55px;
+            }
+            .icon-preview {
+                float: none;
+                margin: 0 auto 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="https://giacomosaccaggi.github.io/">Giacomo Saccaggi</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="https://giacomosaccaggi.github.io/">Home</a></li>
+                    <li><a href="https://giacomosaccaggi.github.io/about/">About</a></li>
+                    <li><a href="https://giacomosaccaggi.github.io/contact/">Contact</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">CardinalityKit <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="index.html">Overview</a></li>
+                            <li><a href="fundamentals.html">Fundamentals</a></li>
+                            <li><a href="algorithm-evolution.html">Evolution</a></li>
+                            <li><a href="hyperloglog.html">HyperLogLog</a></li>
+                            <li><a href="hyperreal.html">HyperReal</a></li>
+                            <li><a href="implementation.html">Implementation</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Real-World Applications</h1>
+                        <h2 class="subheading">Privacy-Preserving Analytics in Production</h2>
+                        <span class="meta">CardinalityKit Documentation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+        <div class="section">
+            <h2>Industry Applications Overview</h2>
+            <p>Cardinality estimation algorithms, particularly HyperLogLog and HyperReal, have found widespread adoption across industries where privacy-preserving analytics and scalable unique counting are essential.</p>
+            
+            <div class="highlight-box">
+                <h3>🌟 Why These Algorithms Matter</h3>
+                <ul>
+                    <li><strong>Privacy Compliance:</strong> Count unique users without storing personal data</li>
+                    <li><strong>Scalability:</strong> Handle billions of users with minimal memory</li>
+                    <li><strong>Real-Time Analytics:</strong> Fast updates and queries for live dashboards</li>
+                    <li><strong>Cross-Platform Integration:</strong> Merge data from multiple sources</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Media and Advertising</h2>
+            
+            <div class="use-case-grid">
+                <div class="use-case-card media-card">
+                    <h4>📺 TV Audience Measurement</h4>
+                    <p>Traditional TV measurement companies use panel-to-sketch conversion to integrate with digital measurement while preserving privacy.</p>
+                    <ul>
+                        <li>Panel expansion to population level</li>
+                        <li>Cross-platform deduplication</li>
+                        <li>Demographic-aware reach estimation</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case-card media-card">
+                    <h4>🎯 Digital Advertising</h4>
+                    <p>Ad platforms use sketches to measure campaign reach and frequency without exposing user identities.</p>
+                    <ul>
+                        <li>Unique reach across campaigns</li>
+                        <li>Frequency capping enforcement</li>
+                        <li>Cross-device attribution</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case-card media-card">
+                    <h4>📊 Audience Analytics</h4>
+                    <p>Media companies analyze content performance and audience overlap across platforms.</p>
+                    <ul>
+                        <li>Content reach measurement</li>
+                        <li>Audience segment analysis</li>
+                        <li>Platform performance comparison</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="code-snippet">
+# Example: Cross-platform audience measurement
+class AudienceMeasurement:
+    def __init__(self):
+        self.platform_sketches = {}
+    
+    def add_platform_data(self, platform, user_events):
+        """Add user events from a platform"""
+        sketch = ExtendedHyperRealSketch(b_m=14, b_s=8)
+        
+        for event in user_events:
+            sketch.update_sketch({
+                'id_to_count': event['hashed_user_id'],
+                'attribute': event['demographic']
+            })
+        
+        self.platform_sketches[platform] = sketch
+    
+    def get_cross_platform_reach(self):
+        """Calculate total unique reach across all platforms"""
+        platforms = list(self.platform_sketches.keys())
+        
+        if len(platforms) == 1:
+            return self.platform_sketches[platforms[0]].get_cardinality_estimate()
+        
+        # Union all platform sketches
+        merged_sketch = self.platform_sketches[platforms[0]]
+        for platform in platforms[1:]:
+            merged_sketch = merge_sketches(
+                merged_sketch, 
+                self.platform_sketches[platform], 
+                operation='union'
+            )
+        
+        return merged_sketch.get_cardinality_estimate()
+    
+    def get_demographic_breakdown(self):
+        """Get audience breakdown by demographics"""
+        total_sketch = self.get_merged_sketch()
+        return total_sketch.get_frequency_for_attr()
+
+# Usage in production
+measurement = AudienceMeasurement()
+measurement.add_platform_data('tv', tv_events)
+measurement.add_platform_data('digital', digital_events)
+
+total_reach = measurement.get_cross_platform_reach()
+demographics = measurement.get_demographic_breakdown()
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Technology and Web Analytics</h2>
+            
+            <div class="use-case-grid">
+                <div class="use-case-card tech-card">
+                    <h4>🌐 Web Analytics</h4>
+                    <p>Major web analytics platforms use HLL for unique visitor counting at massive scale.</p>
+                    <ul>
+                        <li>Daily/monthly active users</li>
+                        <li>Page view deduplication</li>
+                        <li>Session analysis</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case-card tech-card">
+                    <h4>📱 Mobile App Analytics</h4>
+                    <p>App analytics platforms track user engagement and retention using cardinality estimation.</p>
+                    <ul>
+                        <li>App install attribution</li>
+                        <li>User retention cohorts</li>
+                        <li>Feature usage analysis</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case-card tech-card">
+                    <h4>🔍 Search and Recommendation</h4>
+                    <p>Search engines and recommendation systems use sketches for query analysis and user modeling.</p>
+                    <ul>
+                        <li>Unique query counting</li>
+                        <li>User interest profiling</li>
+                        <li>Content popularity metrics</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="architecture-diagram">
+                <h4>Real-Time Analytics Architecture:</h4>
+                <div>
+                    <div class="flow-step">User Events</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Stream Processing</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Sketch Updates</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Dashboard</div>
+                </div>
+                <p>Events are processed in real-time, updating sketches that power live analytics dashboards</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Financial Services</h2>
+            
+            <div class="use-case-grid">
+                <div class="use-case-card finance-card">
+                    <h4>💳 Fraud Detection</h4>
+                    <p>Banks use cardinality estimation to detect unusual patterns in transaction data.</p>
+                    <ul>
+                        <li>Unique merchant analysis</li>
+                        <li>Geographic transaction patterns</li>
+                        <li>Account activity monitoring</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case-card finance-card">
+                    <h4>📈 Risk Management</h4>
+                    <p>Financial institutions analyze portfolio diversity and concentration risk.</p>
+                    <ul>
+                        <li>Counterparty exposure analysis</li>
+                        <li>Asset concentration metrics</li>
+                        <li>Market participant counting</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case-card finance-card">
+                    <h4>🏦 Customer Analytics</h4>
+                    <p>Banks analyze customer behavior and product usage patterns.</p>
+                    <ul>
+                        <li>Product adoption rates</li>
+                        <li>Channel usage analysis</li>
+                        <li>Customer segment sizing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="code-snippet">
+# Example: Fraud detection using cardinality estimation
+class FraudDetectionSystem:
+    def __init__(self):
+        self.merchant_sketches = {}  # Per-account merchant sketches
+        self.location_sketches = {}  # Per-account location sketches
+        
+    def process_transaction(self, transaction):
+        """Process a transaction and update sketches"""
+        account_id = transaction['account_id']
+        merchant = transaction['merchant_id']
+        location = transaction['location_code']
+        
+        # Initialize sketches for new accounts
+        if account_id not in self.merchant_sketches:
+            self.merchant_sketches[account_id] = HyperRealSketch(b_m=12)
+            self.location_sketches[account_id] = HyperRealSketch(b_m=12)
+        
+        # Update sketches
+        self.merchant_sketches[account_id].update_sketch(merchant)
+        self.location_sketches[account_id].update_sketch(location)
+    
+    def detect_anomalies(self, account_id, time_window='24h'):
+        """Detect unusual patterns in account activity"""
+        if account_id not in self.merchant_sketches:
+            return {'risk_score': 0, 'alerts': []}
+        
+        # Calculate unique merchants and locations
+        unique_merchants = self.merchant_sketches[account_id].get_cardinality_estimate()
+        unique_locations = self.location_sketches[account_id].get_cardinality_estimate()
+        
+        alerts = []
+        risk_score = 0
+        
+        # Alert on unusual merchant diversity
+        if unique_merchants > 50:  # Threshold for 24h window
+            alerts.append(f"High merchant diversity: {unique_merchants}")
+            risk_score += 30
+        
+        # Alert on unusual geographic spread
+        if unique_locations > 10:  # Threshold for 24h window
+            alerts.append(f"High location diversity: {unique_locations}")
+            risk_score += 40
+        
+        return {'risk_score': risk_score, 'alerts': alerts}
+            </code>
+        </div>
+
+        <div class="section">
+            <h2>Privacy-Preserving Analytics</h2>
+            
+            <div class="use-case-grid">
+                <div class="use-case-card privacy-card">
+                    <h4>🔒 GDPR Compliance</h4>
+                    <p>Organizations use sketches to analyze user behavior without storing personal data.</p>
+                    <ul>
+                        <li>Right to be forgotten compliance</li>
+                        <li>Data minimization principles</li>
+                        <li>Pseudonymization techniques</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case-card privacy-card">
+                    <h4>🏥 Healthcare Analytics</h4>
+                    <p>Healthcare organizations analyze patient patterns while maintaining HIPAA compliance.</p>
+                    <ul>
+                        <li>Patient flow analysis</li>
+                        <li>Treatment outcome studies</li>
+                        <li>Epidemiological research</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case-card privacy-card">
+                    <h4>🎓 Educational Research</h4>
+                    <p>Educational institutions study student behavior and learning patterns.</p>
+                    <ul>
+                        <li>Course engagement analysis</li>
+                        <li>Learning path optimization</li>
+                        <li>Student success prediction</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>🛡️ Privacy Benefits</h3>
+                <ul>
+                    <li><strong>No PII Storage:</strong> Only hash values and sketches are stored</li>
+                    <li><strong>Differential Privacy:</strong> Individual contributions are obscured</li>
+                    <li><strong>Data Minimization:</strong> Collect only what's needed for analysis</li>
+                    <li><strong>Secure Aggregation:</strong> Combine data without exposing individuals</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Implementation Benefits and Challenges</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h4>✅ Scalability</h4>
+                    <p>Handle billions of users with constant memory usage</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>✅ Privacy</h4>
+                    <p>No individual user data stored or transmitted</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>✅ Real-Time</h4>
+                    <p>Fast updates enable live analytics dashboards</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>✅ Mergeable</h4>
+                    <p>Combine data from multiple sources easily</p>
+                </div>
+                
+                <div class="challenge-card">
+                    <h4>⚠️ Approximation</h4>
+                    <p>Results are estimates with inherent error bounds</p>
+                </div>
+                
+                <div class="challenge-card">
+                    <h4>⚠️ Hash Consistency</h4>
+                    <p>Requires consistent hashing across all systems</p>
+                </div>
+                
+                <div class="challenge-card">
+                    <h4>⚠️ Limited Queries</h4>
+                    <p>Only supports cardinality and basic set operations</p>
+                </div>
+                
+                <div class="challenge-card">
+                    <h4>⚠️ Parameter Tuning</h4>
+                    <p>Requires expertise to optimize accuracy vs memory</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Production Deployment Patterns</h2>
+            
+            <div class="code-snippet">
+# Production deployment architecture
+class ProductionSketchService:
+    def __init__(self, redis_client, kafka_consumer):
+        self.redis = redis_client
+        self.kafka = kafka_consumer
+        self.sketches = {}
+        
+    def start_processing(self):
+        """Start processing events from Kafka"""
+        for message in self.kafka:
+            try:
+                event = json.loads(message.value)
+                self.process_event(event)
+            except Exception as e:
+                logger.error(f"Error processing event: {e}")
+    
+    def process_event(self, event):
+        """Process individual event and update sketches"""
+        sketch_key = f"sketch:{event['platform']}:{event['date']}"
+        
+        # Load sketch from Redis or create new one
+        if sketch_key not in self.sketches:
+            sketch_data = self.redis.get(sketch_key)
+            if sketch_data:
+                self.sketches[sketch_key] = self.deserialize_sketch(sketch_data)
+            else:
+                self.sketches[sketch_key] = HyperRealSketch(b_m=14)
+        
+        # Update sketch
+        self.sketches[sketch_key].update_sketch(event['user_id'])
+        
+        # Periodically save to Redis
+        if random.random() < 0.01:  # 1% chance
+            self.save_sketch(sketch_key)
+    
+    def save_sketch(self, sketch_key):
+        """Save sketch to Redis"""
+        sketch_data = self.serialize_sketch(self.sketches[sketch_key])
+        self.redis.set(sketch_key, sketch_data, ex=86400)  # 24h TTL
+    
+    def get_cardinality(self, platform, date):
+        """Get cardinality estimate for platform and date"""
+        sketch_key = f"sketch:{platform}:{date}"
+        
+        if sketch_key in self.sketches:
+            return self.sketches[sketch_key].get_cardinality_estimate()
+        
+        # Try loading from Redis
+        sketch_data = self.redis.get(sketch_key)
+        if sketch_data:
+            sketch = self.deserialize_sketch(sketch_data)
+            return sketch.get_cardinality_estimate()
+        
+        return 0
+    
+    def serialize_sketch(self, sketch):
+        """Serialize sketch for storage"""
+        return pickle.dumps({
+            'registers': sketch.registers,
+            'b_m': sketch.b_m
+        })
+    
+    def deserialize_sketch(self, data):
+        """Deserialize sketch from storage"""
+        sketch_data = pickle.loads(data)
+        sketch = HyperRealSketch(sketch_data['b_m'])
+        sketch.registers = sketch_data['registers']
+        return sketch
+            </code>
+        </div>
+
+        <div class="section">
+            <h2>Future Directions</h2>
+            
+            <div class="highlight-box">
+                <h3>🚀 Emerging Applications</h3>
+                <ul>
+                    <li><strong>IoT Analytics:</strong> Device counting and behavior analysis at massive scale</li>
+                    <li><strong>Blockchain Analytics:</strong> Unique address counting and transaction pattern analysis</li>
+                    <li><strong>Edge Computing:</strong> Local sketch computation with cloud aggregation</li>
+                    <li><strong>Federated Learning:</strong> Privacy-preserving model training with sketch-based statistics</li>
+                    <li><strong>5G Networks:</strong> Real-time user counting and network optimization</li>
+                </ul>
+            </div>
+
+            <div class="architecture-diagram">
+                <h4>Future Architecture: Federated Sketches</h4>
+                <div>
+                    <div class="flow-step">Edge Devices</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Local Sketches</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Secure Aggregation</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Global Analytics</div>
+                </div>
+                <p>Distributed sketch computation enables privacy-preserving analytics across federated systems</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Getting Started in Production</h2>
+            
+            <div class="highlight-box">
+                <h3>📋 Implementation Checklist</h3>
+                <ol>
+                    <li><strong>Choose Algorithm:</strong> HyperReal for new projects, HLL for compatibility</li>
+                    <li><strong>Set Parameters:</strong> k=14 for most applications (64KB memory)</li>
+                    <li><strong>Design Hash Strategy:</strong> Consistent hashing across all systems</li>
+                    <li><strong>Plan Storage:</strong> Redis/Memcached for real-time, databases for historical</li>
+                    <li><strong>Implement Monitoring:</strong> Track accuracy against ground truth when available</li>
+                    <li><strong>Test Thoroughly:</strong> Validate accuracy and performance with realistic data</li>
+                    <li><strong>Document Limitations:</strong> Educate stakeholders on approximation nature</li>
+                </ol>
+            </div>
+        </div>
+
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="index.html" style="background: #0085a1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;">← Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="https://www.linkedin.com/in/giacomo-saccaggi/">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/giacomosaccaggi">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; Giacomo Saccaggi 2024 | CardinalityKit Documentation</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="https://giacomosaccaggi.github.io/js/clean-blog.min.js"></script>
+</body>
+</html>
