@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+include requirements.txt
+recursive-include cardinalitykit *.py
+recursive-include documentation *.html *.css *.js
+include index.html
