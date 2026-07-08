@@ -32,6 +32,12 @@ CardinalityKit provides implementations of state-of-the-art algorithms for estim
 
 ## Installation
 
+### From PyPI (recommended)
+
+```bash
+pip install cardinalitykit
+```
+
 ### From Source
 
 ```bash
@@ -39,7 +45,7 @@ CardinalityKit provides implementations of state-of-the-art algorithms for estim
 git clone https://github.com/GiacomoSaccaggi/CardinalityKit.git
 cd CardinalityKit
 
-# Install the package
+# Install the package in development mode
 pip install -e .
 ```
 
@@ -277,7 +283,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Author
 
-CardinalityKit - A toolkit for privacy-preserving cardinality estimation
+Giacomo Saccaggi — [GitHub](https://github.com/GiacomoSaccaggi)
 
 ## Support
 

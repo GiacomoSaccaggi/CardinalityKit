@@ -11,12 +11,16 @@ A comprehensive Python package for cardinality estimation algorithms, providing 
 
 ## Installation
 
-```python
-# Add the cardinalitykit directory to your Python path
-import sys
-sys.path.append('/path/to/CardinalityKit')
+```bash
+pip install cardinalitykit
+```
 
-import cardinalitykit
+Or install from source:
+
+```bash
+git clone https://github.com/GiacomoSaccaggi/CardinalityKit.git
+cd CardinalityKit
+pip install -e .
 ```
 
 ## Quick Start

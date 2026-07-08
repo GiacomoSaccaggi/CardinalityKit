@@ -43,3 +43,4 @@ htmlcov/
 # Data files
 *.csv
 *.log
+/.celebrimbot/
