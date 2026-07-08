@@ -10,5 +10,5 @@ from .extended import *
 from .conversion import *
 from .utils import *
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __author__ = "CardinalityKit"

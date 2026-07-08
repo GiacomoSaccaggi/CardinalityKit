@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cardinalitykit"
-version = "1.0.1"
+version = "1.0.2"
 description = "A comprehensive toolkit for cardinality estimation algorithms"
 readme = "README.md"
 license = "MIT"
@@ -52,8 +52,8 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/GiacomoSaccaggi/CardinalityKit"
-Documentation = "https://github.com/GiacomoSaccaggi/CardinalityKit"
+Homepage = "https://giacomosaccaggi.github.io/CardinalityKit/"
+Documentation = "https://giacomosaccaggi.github.io/CardinalityKit/"
 Repository = "https://github.com/GiacomoSaccaggi/CardinalityKit"
 Issues = "https://github.com/GiacomoSaccaggi/CardinalityKit/issues"
 
